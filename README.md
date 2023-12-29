@@ -1,5 +1,5 @@
 
-#  Odoo (17) 
+#  Odoo (16) 
 ## custom_addons setup
 
 - `python` commands
