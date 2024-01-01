@@ -10,6 +10,8 @@
                       sequence="10"/>
             <menuitem id="menu_tickets_all" name="All Tickets" action="action_helpdesk_ticket"
                       sequence="20"/>
+            <menuitem id="menu_customers" name="Customers" action="action_helpdesk_ticket"
+                      sequence="30"/>
         </menuitem>
 
         <menuitem id="menu_reporting_main" name="Reporting" sequence="30">
@@ -30,11 +32,11 @@
                       sequence="40"/>
             <menuitem id="ticket_config_main" name="Ticket"
                       sequence="50">
-                <menuitem id="menu_ticket_categories" name="Categories" action="action_helpdesk_ticket_category"
-                          sequence="10"/>
-                <menuitem id="menu_ticket_sources" name="Sources" action="action_helpdesk_ticket_source"
-                          sequence="20"/>
                 <menuitem id="menu_stages" name="Stages" action="action_helpdesk_stage"
+                          sequence="10"/>
+                <menuitem id="menu_ticket_categories" name="Categories" action="action_helpdesk_ticket_category"
+                          sequence="20"/>
+                <menuitem id="menu_ticket_sources" name="Sources" action="action_helpdesk_ticket_source"
                           sequence="30"/>
             </menuitem>
             <menuitem id="menu_tags" name="Tags" action="action_helpdesk_tag"
