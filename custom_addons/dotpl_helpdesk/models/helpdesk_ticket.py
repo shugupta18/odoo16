@@ -15,7 +15,6 @@ class HelpdeskTicket(models.Model):
     activity = fields.Char(string='Activity',default='Remove activity')
     stage_id = fields.Many2one(comodel_name='helpdesk.stage', string='Stage', default=_default_stage_id, tracking=1)
 
-    title = fields.Char(string='Title', required=True, tracking=True)
     created_date = fields.Date(string='Created Date', default=fields.Date.context_today)
     ticket_number = fields.Char(string='Ticket Number', readonly=True)
 

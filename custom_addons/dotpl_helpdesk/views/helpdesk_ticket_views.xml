@@ -36,9 +36,10 @@
                 </header>
                 <sheet>
                     <separator string="Ticket Information"/>
-                    <group>
-                        <field name="title"/>
-                    </group>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Product arrived damaged" default_focus="1"/></h1>
+                    </div>
+
                     <group>
                         <group>
                             <field name="active" invisible="1"/>
@@ -49,7 +50,6 @@
                             <field name="created_date"/>
                         </group>
                         <group>
-                            <field name="name" default_focus="1"/>
                             <field name="issue_regarding"/>
                             <field name="priority" widget="priority"/>
                             <field name="estimated_closing_date"/>
@@ -62,7 +62,6 @@
                                    options="{ 'collaborative': true, 'resizable': true }"/>
                         </page>
                     </notebook>
-
 
                     <group string="Helpdesk Team Information">
                         <group>
@@ -90,9 +89,7 @@
                         </group>
                     </group>
 
-
                 </sheet>
-
                 <!-- Add Chatter-->
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>
