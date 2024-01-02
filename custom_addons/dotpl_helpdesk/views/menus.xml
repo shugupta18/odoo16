@@ -3,15 +3,19 @@
 
     <menuitem id="menu_helpdesk_root" name="Helpdesk" sequence="-100"
               web_icon="dotpl_helpdesk,static/description/icon.png">
+
         <menuitem id="menu_overview_main" name="Overview" action="action_helpdesk_team"
                   sequence="10"/>
+
         <menuitem id="menu_tickets_main" name="Tickets" sequence="20">
-            <menuitem id="menu_tickets_my" name="My Tickets" action="action_helpdesk_ticket"
+            <menuitem id="menu_tickets_my" name="My Tickets" action="action_helpdesk_ticket_my"
                       sequence="10"/>
             <menuitem id="menu_tickets_all" name="All Tickets" action="action_helpdesk_ticket"
                       sequence="20"/>
-            <menuitem id="menu_customers" name="Customers" action="action_helpdesk_ticket"
+            <menuitem id="menu_teams" name="Teams" action="action_helpdesk_ticket"
                       sequence="30"/>
+            <menuitem id="menu_customers" name="Customers" action="action_helpdesk_ticket"
+                      sequence="40"/>
         </menuitem>
 
         <menuitem id="menu_reporting_main" name="Reporting" sequence="30">
@@ -26,23 +30,24 @@
                       sequence="10"/>
             <menuitem id="menu_helpdesk_teams" name="Helpdesk Teams" action="action_helpdesk_team"
                       sequence="20"/>
-            <menuitem id="menu_teams_members" name="Teams members" action="action_helpdesk_team"
-                      sequence="30"/>
-            <menuitem id="menu_sla_policies" name="SLA Policies" action="action_helpdesk_sla_policy"
+<!--            <menuitem id="menu_teams_members" name="Teams members" action="action_helpdesk_team_member"-->
+<!--                      sequence="30"/>-->
+             <menuitem id="menu_activity_types" name="Activity Types" action="action_helpdesk_tag"
                       sequence="40"/>
             <menuitem id="ticket_config_main" name="Ticket"
                       sequence="50">
                 <menuitem id="menu_stages" name="Stages" action="action_helpdesk_stage"
                           sequence="10"/>
-                <menuitem id="menu_ticket_categories" name="Categories" action="action_helpdesk_ticket_category"
+                <menuitem id="menu_tags" name="Tags" action="action_helpdesk_tag"
                           sequence="20"/>
-                <menuitem id="menu_ticket_sources" name="Sources" action="action_helpdesk_ticket_source"
+                <menuitem id="menu_ticket_categories" name="Categories" action="action_helpdesk_ticket_category"
                           sequence="30"/>
+                <menuitem id="menu_ticket_sources" name="Sources" action="action_helpdesk_ticket_source"
+                          sequence="40"/>
             </menuitem>
-            <menuitem id="menu_tags" name="Tags" action="action_helpdesk_tag"
+            <menuitem id="menu_sla_policies" name="SLA Policies" action="action_helpdesk_sla_policy"
                       sequence="60"/>
-            <menuitem id="menu_activity_types" name="Activity Types" action="action_helpdesk_tag"
-                      sequence="70"/>
+
         </menuitem>
     </menuitem>
 </odoo>

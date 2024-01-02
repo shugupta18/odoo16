@@ -17,7 +17,7 @@ class HelpdeskTicket(models.Model):
 
     title = fields.Char(string='Title', required=True, tracking=True)
     created_date = fields.Date(string='Created Date', default=fields.Date.context_today)
-    ticket_number = fields.Char(string='Ticket Number')
+    ticket_number = fields.Char(string='Ticket Number', readonly=True)
 
     category_id = fields.Many2one(comodel_name='helpdesk.ticket.category', string='Category', tracking=True)
     issue_regarding = fields.Char(string='Issue Regarding', tracking=True)
@@ -26,7 +26,8 @@ class HelpdeskTicket(models.Model):
     description = fields.Html(string='Description')
 
     team_id = fields.Many2one(comodel_name='helpdesk.team', string='Assigned Team', tracking=True)
-    assigned_to = fields.Char(string='Assigned To', tracking=True)
+    possible_team_member_ids = fields.Many2many(related='team_id.member_ids')
+    member_id = fields.Many2one(comodel_name='res.users', string='Assigned To', tracking=True, domain="[('id', 'in', possible_team_member_ids)]")
     priority = fields.Selection(selection=[('0', 'Normal'), ('1', 'Low'), ('2', 'Moderate'), ('3', 'High'), ('4', 'Very High')], string='Priority', tracking=True)
     tag_ids = fields.Many2many(comodel_name='helpdesk.tag', string='Tags')
     estimated_closing_date = fields.Date(string='Estimated Closing Date')
@@ -37,3 +38,19 @@ class HelpdeskTicket(models.Model):
     email = fields.Char(string='Email Id')
     cc_email = fields.Char(string='cc Email')
     uploaded_document = fields.Binary(string='Document', attachment=True)
+
+    # @api.depends('team_id')
+    # def _compute_member_id(self):
+    #     for record in self:
+    #         members = record.team_id.member_ids
+    #         record.team_member_id = members and members[0] or False
+
+    # ------------------------------------------------------------
+    # CRUD
+    # ------------------------------------------------------------
+
+    @api.model
+    def create(self, vals):
+        vals['ticket_number'] = self.env['ir.sequence'].next_by_code('helpdesk.ticket')
+        return super(HelpdeskTicket, self).create(vals)
+
