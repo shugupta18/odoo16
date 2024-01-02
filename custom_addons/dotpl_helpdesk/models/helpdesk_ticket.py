@@ -10,7 +10,7 @@ class HelpdeskTicket(models.Model):
         stage_id = self.env['helpdesk.stage'].search([], order='sequence asc, id asc', limit=1)
         return stage_id
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Name', required=True, tracking=True)
     active = fields.Boolean(string="Active", default=True, tracking=True)
     activity = fields.Char(string='Activity',default='Remove activity')
     stage_id = fields.Many2one(comodel_name='helpdesk.stage', string='Stage', default=_default_stage_id, tracking=1)
@@ -27,7 +27,7 @@ class HelpdeskTicket(models.Model):
     team_id = fields.Many2one(comodel_name='helpdesk.team', string='Assigned Team', tracking=True)
     possible_team_member_ids = fields.Many2many(related='team_id.member_ids')
     member_id = fields.Many2one(comodel_name='res.users', string='Assigned To', tracking=True, domain="[('id', 'in', possible_team_member_ids)]")
-    priority = fields.Selection(selection=[('0', 'Normal'), ('1', 'Low'), ('2', 'Moderate'), ('3', 'High'), ('4', 'Very High')], string='Priority', tracking=True)
+    priority = fields.Selection(selection=[('0', 'Normal'), ('1', 'Low'), ('2', 'Moderate'), ('3', 'High'), ('4', 'Very High')], string='Priority', default='1', tracking=True)
     tag_ids = fields.Many2many(comodel_name='helpdesk.tag', string='Tags')
     estimated_closing_date = fields.Date(string='Estimated Closing Date')
     closing_date = fields.Date(string='Closing Date')
