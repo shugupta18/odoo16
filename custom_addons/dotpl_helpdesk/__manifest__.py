@@ -12,7 +12,6 @@
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
         'views/helpdesk_ticket_views.xml',
-        'views/helpdesk_ticket_my_views.xml',
         'views/helpdesk_team_views.xml',
         'views/helpdesk_team_member_views.xml',
         'views/helpdesk_stage_views.xml',

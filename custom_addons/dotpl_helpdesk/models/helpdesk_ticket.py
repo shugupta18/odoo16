@@ -39,12 +39,6 @@ class HelpdeskTicket(models.Model):
     cc_email = fields.Char(string='cc Email')
     uploaded_document = fields.Binary(string='Document', attachment=True)
 
-    # @api.depends('team_id')
-    # def _compute_member_id(self):
-    #     for record in self:
-    #         members = record.team_id.member_ids
-    #         record.team_member_id = members and members[0] or False
-
     # ------------------------------------------------------------
     # CRUD
     # ------------------------------------------------------------

@@ -44,7 +44,8 @@
                             <field name="active" invisible="1"/>
                             <field name="category_id"/>
                             <field name="source_id"/>
-                            <field name="ticket_number" attrs="{'invisible': ['|', ('ticket_number', '=', False), ('ticket_number', '=', None)]}"/>
+                            <field name="ticket_number"
+                                   attrs="{'invisible': ['|', ('ticket_number', '=', False), ('ticket_number', '=', None)]}"/>
                             <field name="created_date"/>
                         </group>
                         <group>
@@ -116,7 +117,9 @@
                 <field name="member_id"/>
 
                 <!-- Filters -->
-                <filter name="filter_by_stage_id" string="Opened Ticket" domain="[('stage_id', '=', 'Open')]"/>
+                <filter name="filter_ticket_my" string="My Tickets" domain="[('member_id','=',uid)]"/>
+                <separator/>
+                <filter name="filter_ticket_open" string="Open" domain="[('stage_id', '=', 'Open')]"/>
                 <separator/>
                 <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
 
@@ -127,7 +130,6 @@
                 <group expand="0" string="Group By">
                     <filter string="Category" name="group_by_category" context="{'group_by':'category_id'}"/>
                 </group>
-
             </search>
         </field>
     </record>
@@ -193,7 +195,28 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">helpdesk.ticket</field>
         <field name="view_mode">tree,kanban,form</field>
-        <field name="context">{'search_default_filter_source': 1}</field>
+        <field name="search_view_id" ref="dotpl_helpdesk.view_helpdesk_ticket_search"/>
+        <field name="context">{
+            'search_default_filter_ticket_open': True,
+            }
+        </field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Ticket!
+            </p>
+        </field>
+    </record>
+
+    <record id="action_helpdesk_ticket_my" model="ir.actions.act_window">
+        <field name="name">My Tickets</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{
+            'search_default_filter_ticket_my': True,
+            'search_default_filter_ticket_open': True,
+            }
+        </field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new Ticket!
