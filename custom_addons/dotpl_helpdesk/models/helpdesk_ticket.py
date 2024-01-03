@@ -1,6 +1,6 @@
-from datetime import timedelta
-
 from odoo import api, fields, models, _
+
+from datetime import timedelta
 
 TICKET_PRIORITY = [('0', 'Very Low'), ('1', 'Low'), ('2', 'Moderate'), ('3', 'High'), ('4', 'Very High')]
 
@@ -16,10 +16,9 @@ class HelpdeskTicket(models.Model):
 
     name = fields.Char(string='Name', required=True, tracking=True)
     active = fields.Boolean(string="Active", default=True, tracking=True)
-    activity = fields.Char(string='Activity',default='Remove activity')
     stage_id = fields.Many2one(comodel_name='helpdesk.stage', string='Stage', default=_default_stage_id, tracking=1)
 
-    created_datetime = fields.Datetime(string='Created Date', default=fields.Datetime.now, tracking=True)
+    created_datetime = fields.Datetime(string='Created Datetime', default=fields.Datetime.now, tracking=True)
     ticket_number = fields.Char(string='Ticket Number', readonly=True)
 
     category_id = fields.Many2one(comodel_name='helpdesk.ticket.category', string='Category', tracking=True)
@@ -34,7 +33,7 @@ class HelpdeskTicket(models.Model):
     priority = fields.Selection(selection=TICKET_PRIORITY, string='Priority', default='1', tracking=True)
     tag_ids = fields.Many2many(comodel_name='helpdesk.tag', string='Tags')
     sla_deadline = fields.Datetime(string='SLA Deadline')
-    closing_date = fields.Date(string='Closing Date')
+    closing_datetime = fields.Datetime(string='Closing Datetime')
 
     customer_name = fields.Char(string='Customer Name')
     phone = fields.Char(string='Phone')
@@ -56,7 +55,7 @@ class HelpdeskTicket(models.Model):
     # ------------------------------------------------------------
 
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         vals['ticket_number'] = self.env['ir.sequence'].next_by_code('helpdesk.ticket')
         return super(HelpdeskTicket, self).create(vals)
