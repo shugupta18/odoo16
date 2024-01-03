@@ -13,24 +13,24 @@
         </field>
     </record>
 
-<!--    &lt;!&ndash; Form View &ndash;&gt;-->
-<!--    <record id="view_helpdesk_stage_form" model="ir.ui.view">-->
-<!--        <field name="name">helpdesk.stage.form</field>-->
-<!--        <field name="model">helpdesk.stage</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <form>-->
-<!--                <sheet>-->
-<!--                    <group>-->
-<!--                        <group>-->
-<!--                            <field name="name"/>-->
-<!--                            <field name="active"/>-->
-<!--                        </group>-->
-<!--                        <group></group>-->
-<!--                    </group>-->
-<!--                </sheet>-->
-<!--            </form>-->
-<!--        </field>-->
-<!--    </record>-->
+    <!-- Form View -->
+    <record id="view_helpdesk_sla_policy_form" model="ir.ui.view">
+        <field name="name">helpdesk.sla.policy.form</field>
+        <field name="model">helpdesk.sla.policy</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                            <field name="priority" widget="priority"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
 
     <!-- Search View -->
 <!--    <record id="view_helpdesk_ticket_search" model="ir.ui.view">-->

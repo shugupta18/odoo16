@@ -1,5 +1,7 @@
 from odoo import api, fields, models, _
 
+TICKET_PRIORITY = [('0', 'Very Low'), ('1', 'Low'), ('2', 'Moderate'), ('3', 'High'), ('4', 'Very High')]
+
 
 class HelpdeskTicket(models.Model):
     _name = "helpdesk.ticket"
@@ -27,7 +29,7 @@ class HelpdeskTicket(models.Model):
     team_id = fields.Many2one(comodel_name='helpdesk.team', string='Assigned Team', tracking=True)
     possible_team_member_ids = fields.Many2many(related='team_id.member_ids')
     member_id = fields.Many2one(comodel_name='res.users', string='Assigned To', domain="[('id', 'in', possible_team_member_ids)]", tracking=True)
-    priority = fields.Selection(selection=[('0', 'Normal'), ('1', 'Low'), ('2', 'Moderate'), ('3', 'High'), ('4', 'Very High')], string='Priority', default='1', tracking=True)
+    priority = fields.Selection(selection=TICKET_PRIORITY, string='Priority', default='1', tracking=True)
     tag_ids = fields.Many2many(comodel_name='helpdesk.tag', string='Tags')
     estimated_closing_date = fields.Date(string='Estimated Closing Date')
     closing_date = fields.Date(string='Closing Date')
