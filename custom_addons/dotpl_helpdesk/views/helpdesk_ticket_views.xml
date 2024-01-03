@@ -10,15 +10,16 @@
                 <field name="ticket_number" decoration-bf="1"/>
                 <field name="priority" optional="show" widget="priority"/>
                 <field name="name"/>
+                <field name="activity_ids" widget="list_activity"/>
                 <field name="team_id" optional="hide"/>
-                <field name="assigned_to"/>
+                <field name="possible_team_member_ids" invisible="1"/>
+                <field name="member_id" widget="many2one_avatar"/>
                 <field name="customer_name" optional="hide"/>
-                <field name="activity"/>
                 <!-- Add SLA related fields here -->
-                <field name="created_date" optional="hide"/>
+                <field name="created_datetime" optional="hide"/>
                 <field name="__last_update" string="Last Updated"/>
                 <field name="category_id" optional="hide"/>
-                <field name="stage_id"/>
+                <field name="stage_id" widget="badge"/>
                 <field name="tag_ids" widget="many2many_tags" optional="hide"/>
             </tree>
         </field>
@@ -31,26 +32,28 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'order': 'sequence, id'}"/>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold', 'order': 'sequence, id'}"/>
                 </header>
                 <sheet>
                     <separator string="Ticket Information"/>
-                    <group>
-                        <field name="title"/>
-                    </group>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Product arrived damaged" default_focus="1"/>
+                        </h1>
+                    </div>
+
                     <group>
                         <group>
                             <field name="active" invisible="1"/>
                             <field name="category_id"/>
-                            <field name="source_id" />
-                            <field name="ticket_number"/>
-                            <field name="created_date"/>
+                            <field name="source_id"/>
+                            <field name="ticket_number"
+                                   attrs="{'invisible': ['|', ('ticket_number', '=', False), ('ticket_number', '=', None)]}"/>
                         </group>
                         <group>
-                            <field name="name" default_focus="1"/>
                             <field name="issue_regarding"/>
                             <field name="priority" widget="priority"/>
-                            <field name="estimated_closing_date"/>
+                            <field name="created_datetime"/>
                         </group>
                     </group>
 
@@ -61,15 +64,17 @@
                         </page>
                     </notebook>
 
-
                     <group string="Helpdesk Team Information">
                         <group>
                             <field name="team_id"/>
-                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                            <field name="sla_deadline"/>
+                            <field name="tag_ids" widget="many2many_tags"
+                                   options="{'color_field': 'color', 'no_create_edit': True}"/>
                         </group>
                         <group>
-                            <field name="assigned_to"/>
-                            <field name="closing_date"/>
+                            <field name="possible_team_member_ids" invisible="1"/>
+                            <field name="member_id" options="{'no_create_edit': True}"/>
+                            <field name="closing_datetime"/>
                         </group>
                     </group>
 
@@ -82,13 +87,10 @@
                         <group>
                             <field name="phone"/>
                             <field name="cc_email"/>
-                            <field name="activity"/>
                         </group>
                     </group>
 
-
                 </sheet>
-
                 <!-- Add Chatter-->
                 <div class="oe_chatter">
                     <field name="message_follower_ids" groups="base.group_user"/>
@@ -106,29 +108,116 @@
         <field name="model">helpdesk.ticket</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="ticket_number" string="Ticket No or Name"
+                       filter_domain="['|', ('ticket_number','ilike',self), ('name','ilike',self)]"/>
+                <field name="stage_id"/>
                 <field name="category_id"/>
+                <field name="member_id"/>
 
                 <!-- Filters -->
+                <filter name="filter_ticket_my" string="My Tickets" domain="[('member_id','=',uid)]"/>
+                <separator/>
+                <filter name="filter_ticket_open" string="Open" domain="[('stage_id', 'in', ('New', 'In Progress'))]"/>
                 <separator/>
                 <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
 
                 <!-- Group By -->
                 <group expand="0" string="Group By">
+                    <filter string="Stage" name="group_by_stage" context="{'group_by':'stage_id'}"/>
+                </group>
+                <group expand="0" string="Group By">
                     <filter string="Category" name="group_by_category" context="{'group_by':'category_id'}"/>
                 </group>
-
             </search>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_helpdesk_ticket_kanban" model="ir.ui.view">
+        <field name="name">helpdesk.ticket.kanban</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_mobile">
+                <field name="name"/>
+                <field name="team_id"/>
+                <field name="priority"/>
+                <field name="member_id"/>
+                <field name="customer_name"/>
+                <templates>
+                    <!-- Define the Kanban card template -->
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-bs-toggle="dropdown"
+                                   data-bs-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <t t-if="widget.editable">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    </t>
+                                    <t t-if="widget.deletable">
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_content flex-grow-1">
+                                <div class="o_kanban_record_title oe_kanban_details">
+                                    <strong>
+                                        <field name="ticket_number"/>
+                                    </strong>
+                                </div>
+                                <div>
+                                    <field name="name"/>
+                                    <field name="tag_ids" widget="many2many_tags"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_footer">
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="priority" widget="priority" groups="base.group_user"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="member_id" widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
         </field>
     </record>
 
     <!-- Action -->
     <record id="action_helpdesk_ticket" model="ir.actions.act_window">
-        <field name="name">Tickets</field>
+        <field name="name">All Tickets</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">helpdesk.ticket</field>
-        <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_filter_source': 1}</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="search_view_id" ref="dotpl_helpdesk.view_helpdesk_ticket_search"/>
+        <field name="context">{
+            'search_default_filter_ticket_open': True,
+            }
+        </field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Ticket!
+            </p>
+        </field>
+    </record>
+
+    <record id="action_helpdesk_ticket_my" model="ir.actions.act_window">
+        <field name="name">My Tickets</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">helpdesk.ticket</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{
+            'search_default_filter_ticket_my': True,
+            'search_default_filter_ticket_open': True,
+            }
+        </field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new Ticket!

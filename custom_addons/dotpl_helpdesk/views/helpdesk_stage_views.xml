@@ -9,6 +9,7 @@
             <tree>
                 <field name="sequence" widget="handle"/>
                 <field name="name"/>
+                <field name="fold" widget="boolean_toggle"/>
                 <field name="team_ids" widget="many2many_tags"/>
             </tree>
         </field>
@@ -23,7 +24,9 @@
                 <sheet>
                     <group>
                         <group>
+                            <field name="active" invisible="1"/>
                             <field name="name"/>
+                            <field name="fold" widget="boolean_toggle"/>
                             <field name="team_ids" widget="many2many_tags"/>
                             <field name="description"/>
                         </group>
