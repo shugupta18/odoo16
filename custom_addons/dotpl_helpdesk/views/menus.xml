@@ -32,8 +32,8 @@
                       sequence="20"/>
 <!--            <menuitem id="menu_teams_members" name="Teams members" action="action_helpdesk_team_member"-->
 <!--                      sequence="30"/>-->
-             <menuitem id="menu_activity_types" name="Activity Types" action="action_helpdesk_tag"
-                      sequence="40"/>
+<!--             <menuitem id="menu_activity_types" name="Activity Types" action="action_helpdesk_tag"-->
+<!--                      sequence="40"/>-->
             <menuitem id="ticket_config_main" name="Ticket"
                       sequence="50">
                 <menuitem id="menu_stages" name="Stages" action="action_helpdesk_stage"
