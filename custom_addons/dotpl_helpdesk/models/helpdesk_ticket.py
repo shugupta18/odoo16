@@ -49,13 +49,17 @@ class HelpdeskTicket(models.Model):
             duration = timedelta(hours=sla_policies[0].time)
             self.sla_deadline = self.created_datetime + duration
 
+    @api.onchange('stage_id')
+    def onchange_stage_id(self):
+        if self.stage_id.name == 'Closed':
+            self.closing_datetime = fields.datetime.now()
 
     # ------------------------------------------------------------
     # CRUD
     # ------------------------------------------------------------
 
 
-    @api.model_create_multi
+    @api.model
     def create(self, vals):
         vals['ticket_number'] = self.env['ir.sequence'].next_by_code('helpdesk.ticket')
         return super(HelpdeskTicket, self).create(vals)

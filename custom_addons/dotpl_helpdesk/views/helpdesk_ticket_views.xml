@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <tree sample="1" multi_edit="1">
                 <field name="ticket_number" decoration-bf="1"/>
-                <field name="priority" optional="show" widget="priority"/>
+                <field name="priority" optional="show" widget="priority" readonly="1"/>
                 <field name="name"/>
                 <field name="activity_ids" widget="list_activity"/>
                 <field name="team_id" optional="hide"/>
