@@ -11,6 +11,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/sequence_data.xml',
+        'wizard/helpdesk_ticket_wizard_views.xml',
         'views/helpdesk_ticket_views.xml',
         'views/helpdesk_team_views.xml',
         'views/helpdesk_team_member_views.xml',

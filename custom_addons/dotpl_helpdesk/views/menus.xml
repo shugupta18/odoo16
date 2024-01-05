@@ -4,17 +4,17 @@
     <menuitem id="menu_helpdesk_root" name="Helpdesk" sequence="-100"
               web_icon="dotpl_helpdesk,static/description/icon.png">
 
-        <menuitem id="menu_overview_main" name="Overview" action="action_helpdesk_team"
-                  sequence="10"/>
+<!--        <menuitem id="menu_overview_main" name="Overview" action="action_helpdesk_team_config"-->
+<!--                  sequence="10"/>-->
 
         <menuitem id="menu_tickets_main" name="Tickets" sequence="20">
             <menuitem id="menu_tickets_my" name="My Tickets" action="action_helpdesk_ticket_my"
                       sequence="10"/>
             <menuitem id="menu_tickets_all" name="All Tickets" action="action_helpdesk_ticket"
                       sequence="20"/>
-            <menuitem id="menu_teams" name="Teams" action="action_helpdesk_ticket"
+            <menuitem id="menu_teams" name="Teams" action="action_helpdesk_team_pipeline"
                       sequence="30"/>
-            <menuitem id="menu_customers" name="Customers" action="action_helpdesk_ticket"
+            <menuitem id="menu_customers" name="Customers" action="base.action_partner_form"
                       sequence="40"/>
         </menuitem>
 
@@ -26,9 +26,9 @@
         </menuitem>
 
         <menuitem id="menu_configuration_main" name="Configuration" sequence="40">
-            <menuitem id="menu_settings" name="Settings" action="action_helpdesk_team"
+            <menuitem id="menu_settings" name="Settings" action="action_helpdesk_team_config"
                       sequence="10"/>
-            <menuitem id="menu_helpdesk_teams" name="Helpdesk Teams" action="action_helpdesk_team"
+            <menuitem id="menu_helpdesk_teams" name="Helpdesk Teams" action="action_helpdesk_team_config"
                       sequence="20"/>
 <!--            <menuitem id="menu_teams_members" name="Teams members" action="action_helpdesk_team_member"-->
 <!--                      sequence="30"/>-->
