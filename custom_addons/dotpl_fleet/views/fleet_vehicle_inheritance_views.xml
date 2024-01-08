@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Vehicle Tree Inheritance -->
+<!--    <record id='fleet_vehicle_model_brand_view_tree_inheritance' model='ir.ui.view'>-->
+<!--        <field name="name">fleet.vehicle.model.brand.tree.inheritance</field>-->
+<!--        <field name="model">fleet.vehicle.model.brand</field>-->
+<!--        <field name="inherit_id" ref="fleet.fleet_vehicle_model_brand_view_tree"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <data>-->
+<!--                <xpath expr="//field[@name='name']" position="after">-->
+<!--                    <field name="erp_code"/>-->
+<!--                </xpath>-->
+<!--            </data>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <!-- Vehicle Form Inheritance -->
+    <record id="fleet_vehicle_view_form_inheritance" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form.inheritance</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//notebook/page[2]" position="after">
+                    <page string="Documents">
+
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+</odoo>
