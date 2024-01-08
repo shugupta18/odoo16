@@ -52,6 +52,9 @@ class HelpdeskTicket(models.Model):
     cc_email = fields.Char(string='cc Email')
     uploaded_document = fields.Binary(string='Document', attachment=True)
 
+    # sla related fields below
+    # sla_fail = fields.Boolean("Failed SLA Policy")
+
     @api.onchange('created_datetime', 'priority')
     def onchange_created_datetime_priority(self):
         sla_policies = self.env['helpdesk.sla.policy'].search([('priority', '=', self.priority)],

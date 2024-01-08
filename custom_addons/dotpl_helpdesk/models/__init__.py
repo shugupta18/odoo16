@@ -6,3 +6,4 @@ from . import helpdesk_team_member
 from . import helpdesk_ticket_category
 from . import helpdesk_ticket_source
 from . import helpdesk_ticket
+from . import third_party_integration
