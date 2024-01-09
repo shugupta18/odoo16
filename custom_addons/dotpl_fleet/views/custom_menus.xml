@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+
+        <menuitem id="menu_document_main" name="Documents" sequence="105"
+                  parent="fleet.menu_root" action="action_fleet_document"/>
+
         <menuitem id="menu_custom_configuration_main" name="Custom Configuration" sequence="110"
                   parent="fleet.menu_root">
 
@@ -19,5 +23,6 @@
             </menuitem>
 
         </menuitem>
+
     </data>
 </odoo>

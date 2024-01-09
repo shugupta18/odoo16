@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_fleet_document_tree" model="ir.ui.view">
+        <field name="name">fleet.document.tree</field>
+        <field name="model">fleet.document</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_fleet_document_form" model="ir.ui.view">
+        <field name="name">fleet.document.form</field>
+        <field name="model">fleet.document</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_fleet_document_search" model="ir.ui.view">
+        <field name="name">fleet.document.search</field>
+        <field name="model">fleet.document</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_fleet_document" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">fleet.document</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Document!
+            </p>
+        </field>
+    </record>
+
+</odoo>
