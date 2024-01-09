@@ -5,18 +5,19 @@
                   parent="fleet.menu_root">
 
             <menuitem id="documents_config_main" name="Documents" sequence="10">
-                <menuitem id="menu_document_type_category" name="DocType Category" sequence="10"
+                <menuitem id="menu_document_type_category" name="DocType Categories" sequence="10"
                           action="action_fleet_document_type_category"/>
-                <menuitem id="menu_document_type" name="Document Type" sequence="20"
+                <menuitem id="menu_document_type" name="Document Types" sequence="20"
                           action="action_fleet_document_type"/>
                 <menuitem id="menu_document_tags" name="Document Tags" sequence="30"
                           action="action_fleet_document_tag"/>
             </menuitem>
 
             <menuitem id="hierarchy_config_main" name="Hierarchy" sequence="20">
-                <menuitem id="menu_branch" name="Branch" sequence="10" action="action_fleet_branch"/>
-                <menuitem id="menu_hub" name="Hub" sequence="20" action="action_fleet_hub"/>
+                <menuitem id="menu_branch" name="Branches" sequence="10" action="action_fleet_branch"/>
+                <menuitem id="menu_hub" name="Hubs" sequence="20" action="action_fleet_hub"/>
             </menuitem>
+
         </menuitem>
     </data>
 </odoo>
