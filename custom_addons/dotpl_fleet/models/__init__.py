@@ -1,5 +1,6 @@
 from . import fleet_branch
 from . import fleet_hub
+from . import fleet_document_type_category
 from . import fleet_document_type
 from . import fleet_document_tag
 

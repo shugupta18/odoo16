@@ -11,7 +11,7 @@ class FleetBranch(models.Model):
     lat = fields.Char(string='Branch Latitude')
     long = fields.Char(string='Branch Longitude')
 
-    erp_code = fields.Char(string='ERP Code', tracking=True)
+    erp_code = fields.Char(string='Hub ERP Code', tracking=True)
 
     manager = fields.Char(string='Manager Name', tracking=True)
     fleet_manager = fields.Char(string='Fleet Manager Name', tracking=True)

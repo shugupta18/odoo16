@@ -11,7 +11,7 @@ class FleetHub(models.Model):
     lat = fields.Char(string='Latitude')
     long = fields.Char(string='Longitude')
 
-    erp_code = fields.Char(string='ERP Code', tracking=True)
+    erp_code = fields.Char(string='Hub ERP Code', tracking=True)
 
     manager = fields.Char(string='Manager', tracking=True)
     fleet_manager = fields.Char(string='Fleet Manager', tracking=True)

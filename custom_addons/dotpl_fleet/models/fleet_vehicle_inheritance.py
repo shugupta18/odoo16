@@ -6,6 +6,9 @@ class FleetVehicleInheritance(models.Model):
 
     document_line_ids = fields.One2many('fleet.vehicle.document.lines', inverse_name='vehicle_id',
                                         string='Document lines')
+    branch_id = fields.Many2one('fleet.branch', string='Branch')
+    hub_id = fields.Many2one('fleet.hub', string='Hub', domain="[('branch_id', '=', branch_id)]")
+
 
 
 class FleetVehicleDocumentLines(models.Model):
@@ -22,7 +25,7 @@ class FleetVehicleDocumentLines(models.Model):
 
     remarks = fields.Text(string='Remarks')
     tag_ids = fields.Many2many('fleet.document.tag', string='Tags')
-    new_old_toggle = fields.Boolean(sting='New/Old')
+    new_old_toggle = fields.Boolean(string='New/Old')
     state = fields.Selection([
         ('active', 'Active'),
         ('expired', 'Expired'),

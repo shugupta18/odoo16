@@ -12,6 +12,7 @@
         'security/ir.model.access.csv',
         'views/fleet_branch_views.xml',
         'views/fleet_hub_views.xml',
+        'views/fleet_document_type_category_views.xml',
         'views/fleet_document_type_views.xml',
         'views/fleet_document_tag_views.xml',
         'views/fleet_vehicle_inheritance_views.xml',
