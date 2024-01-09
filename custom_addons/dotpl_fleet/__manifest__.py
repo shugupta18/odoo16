@@ -6,7 +6,6 @@
     'website': "https://digitalorder.in",
     'category': 'Fleet',
     'version': '1.0',
-    'sequence': -200,
 
     'depends': ['fleet', 'mail'],
     'data': [
