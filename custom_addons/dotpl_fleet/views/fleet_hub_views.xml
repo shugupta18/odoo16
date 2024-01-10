@@ -44,15 +44,15 @@
                             <field name="branch_id"/>
                             <field name="manager"/>
                             <field name="fleet_manager"/>
-                            <field name="email" widget="email"/>
-                            <field name="fleet_email" widget="email"/>
+                            <field name="address"/>
+                            <field name="operations_email" widget="email"/>
                         </group>
                         <group>
                             <field name="erp_code"/>
                             <field name="manager_email" widget="email"/>
                             <field name="fleet_manager_email" widget="email"/>
-                            <field name="operations_email" widget="email"/>
-                            <field name="address"/>
+                            <field name="email" widget="email"/>
+                            <field name="fleet_email" widget="email"/>
                         </group>
                     </group>
                 </sheet>

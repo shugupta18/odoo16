@@ -14,3 +14,4 @@ class DocumentType(models.Model):
     recurring_flag = fields.Boolean(string='Recurring/Checklist', default=True, help='True means its a "Recurring" document')
 
     category_id = fields.Many2one('fleet.document.type.category', string='Document Category', required=True)
+
