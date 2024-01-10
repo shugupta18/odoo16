@@ -41,13 +41,13 @@
                             <field name="address"/>
                             <field name="manager"/>
                             <field name="fleet_manager"/>
+                            <field name="branch_email" widget="email"/>
                             <!-- <field name="hub_ids" widget="many2many_tags"/>-->
                         </group>
                         <group>
                             <field name="erp_code"/>
                             <field name="manager_email" widget="email"/>
                             <field name="fleet_manager_email" widget="email"/>
-                            <field name="branch_email" widget="email"/>
                         </group>
                     </group>
                 </sheet>

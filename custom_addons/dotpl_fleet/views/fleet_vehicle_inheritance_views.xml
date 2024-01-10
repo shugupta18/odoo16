@@ -14,37 +14,7 @@
                 </xpath>
                 <xpath expr="//notebook/page[3]" position="before">
                     <page string="Documents" name="documents">
-                        <field name="document_line_ids">
-                            <form>
-                                <header><field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"/></header>
-                                <group><field name="document_type_id"/></group>
-                                <group>
-                                    <group>
-                                        <field name="issue_date"/>
-                                        <field name="expiry_date"/>
-                                        <field name="remarks"/>
-                                    </group>
-                                    <group>
-                                        <field name="new_old_toggle"/>
-                                        <field name="file_name" invisible="1"/>
-                                        <field name="file_data" filename="file_name" widget="download"/>
-                                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
-                                    </group>
-                                </group>
-                            </form>
-                            <tree>
-                                <field name="document_type_id"/>
-                                <field name="issue_date"/>
-                                <field name="expiry_date"/>
-                                <field name="state" widget="badge"
-                                       decoration-info="state=='active'"
-                                       decoration-danger="state=='expired'"
-                                       decoration-success="state=='renewed'"
-                                       decoration-warning="state=='hold'"
-                                />
-                                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="hide"/>
-                            </tree>
-                        </field>
+                        <field name="document_ids"/>
                     </page>
                 </xpath>
             </data>

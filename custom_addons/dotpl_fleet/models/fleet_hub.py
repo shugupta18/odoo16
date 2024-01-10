@@ -20,7 +20,7 @@ class FleetHub(models.Model):
     fleet_email = fields.Char(string='Hub Fleet Email')
 
     vehicle_count = fields.Integer(compute='_compute_vehicle_count', store=True)
-    branch_id = fields.Many2one('fleet.branch', string="Branch")
+    branch_id = fields.Many2one('fleet.branch', string="Branch", required=True)
 
     def _compute_vehicle_count(self):
         for hub in self:

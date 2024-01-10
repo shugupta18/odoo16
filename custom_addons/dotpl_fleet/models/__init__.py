@@ -7,3 +7,5 @@ from . import fleet_document
 
 from . import fleet_vehicle_inheritance
 from . import fleet_vehicle_model_inheritance
+
+from . import res_users_inheritance
