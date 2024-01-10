@@ -8,15 +8,10 @@ class FleetBranch(models.Model):
 
     name = fields.Char(string='Name', required=True)
     active = fields.Boolean(string='Active', default=True)
-
     address = fields.Char(string='Address')
     lat = fields.Char(string='Branch Latitude')
     long = fields.Char(string='Branch Longitude')
-
     erp_code = fields.Char(string='Hub ERP Code', tracking=True)
-
-    manager = fields.Char(string='Manager Name', tracking=True)
-    fleet_manager = fields.Char(string='Fleet Manager Name', tracking=True)
     manager_email = fields.Char(string='Manager Email', tracking=True)
     fleet_manager_email = fields.Char(string='Fleet Manager Email', tracking=True)
     branch_email = fields.Char(string='Branch Email')
@@ -24,6 +19,9 @@ class FleetBranch(models.Model):
     hub_count = fields.Integer(string='', compute='_compute_hub_count', store=True)
     vehicle_count = fields.Integer(compute='_compute_vehicle_count', store=True)
     hub_ids = fields.One2many(comodel_name='fleet.hub', inverse_name='branch_id', string='Hubs')
+    manager = fields.Many2one('res.users', string='Manager Name', tracking=True)
+    fleet_manager = fields.Many2one('res.users', string='Fleet Manager Name', tracking=True)
+
 
     @api.depends('hub_ids')
     def _compute_hub_count(self):

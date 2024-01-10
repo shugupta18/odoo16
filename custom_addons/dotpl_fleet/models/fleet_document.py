@@ -11,7 +11,6 @@ class FleetDocument(models.Model):
 
     name = fields.Char(string='Name')
     active = fields.Boolean(string="Active", default=True, tracking=True)
-
     issue_date = fields.Date(string='Issue Date', required=True, tracking=True)
     attachment_data = fields.Binary(string='Attachment')
     attachment_name = fields.Char(string='Attachment Name')

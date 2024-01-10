@@ -9,7 +9,6 @@ class DocumentType(models.Model):
 
     name = fields.Char(string='Name', required=True, tracking=True)
     active = fields.Boolean(string='Active', default=True, tracking=True)
-
     expire_in_days = fields.Integer(string='Expire in (Days)', default=0, tracking=True)
     reminder_required_in_days = fields.Integer(string='Reminder Required in (Days)', default=0, tracking=True)
     recurring_flag = fields.Boolean(string='Recurring/Checklist', default=True, help='True means its a "Recurring" document')

@@ -8,13 +8,10 @@ class FleetHub(models.Model):
 
     name = fields.Char(string='Name', required=True)
     active = fields.Boolean(string='Active', default=True)
-
     address = fields.Char(string='Address')
     lat = fields.Char(string='Latitude')
     long = fields.Char(string='Longitude')
     erp_code = fields.Char(string='Hub ERP Code', tracking=True)
-    manager = fields.Char(string='Manager', tracking=True)
-    fleet_manager = fields.Char(string='Fleet Manager', tracking=True)
     manager_email = fields.Char(string='Manager Email', tracking=True)
     fleet_manager_email = fields.Char(string='Fleet Manager Email', tracking=True)
     email = fields.Char(string='Hub Email')
@@ -23,6 +20,8 @@ class FleetHub(models.Model):
 
     vehicle_count = fields.Integer(compute='_compute_vehicle_count', store=True)
     branch_id = fields.Many2one('fleet.branch', string="Branch", required=True)
+    manager = fields.Many2one('res.users', string='Manager', tracking=True)
+    fleet_manager = fields.Many2one('res.users', string='Fleet Manager', tracking=True)
 
     def _compute_vehicle_count(self):
         for hub in self:
