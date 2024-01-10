@@ -5,4 +5,3 @@ dotpl_fleet.access_fleet_document_type_category,access_fleet_document_type_categ
 dotpl_fleet.access_fleet_document_type,access_fleet_document_type,dotpl_fleet.model_fleet_document_type,base.group_user,1,1,1,1
 dotpl_fleet.access_fleet_document,access_fleet_document,dotpl_fleet.model_fleet_document,base.group_user,1,1,1,1
 dotpl_fleet.access_fleet_document_tag,access_fleet_document_tag,dotpl_fleet.model_fleet_document_tag,base.group_user,1,1,1,1
-dotpl_fleet.access_fleet_vehicle_document_lines,access_fleet_vehicle_document_lines,dotpl_fleet.model_fleet_vehicle_document_lines,base.group_user,1,1,1,1

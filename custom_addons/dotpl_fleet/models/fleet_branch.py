@@ -7,6 +7,8 @@ class FleetBranch(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Name', required=True)
+    active = fields.Boolean(string='Active', default=True)
+
     address = fields.Char(string='Address')
     lat = fields.Char(string='Branch Latitude')
     long = fields.Char(string='Branch Longitude')

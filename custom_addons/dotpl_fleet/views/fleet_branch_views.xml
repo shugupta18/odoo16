@@ -7,6 +7,7 @@
         <field name="model">fleet.branch</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="active" invisible="1"/>
                 <field name="name"/>
                 <field name="erp_code"/>
                 <field name="branch_email"/>
@@ -22,6 +23,9 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <field name="active" invisible="1"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '=', True)]}"/>
                     <div class="oe_button_box" name="button_box">
                         <button type="object" name="action_model_hub" class="oe_stat_button" icon="fa-desktop">
                             <field name="hub_count" widget="statinfo" string="Hubs"/>
@@ -69,6 +73,9 @@
             <search>
                 <field name="name"/>
                 <field name="erp_code"/>
+                <!-- Filters -->
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
             </search>
         </field>
     </record>
