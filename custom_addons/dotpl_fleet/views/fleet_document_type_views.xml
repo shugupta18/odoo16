@@ -10,6 +10,7 @@
                 <field name="active" invisible="1"/>
                 <field name="name"/>
                 <field name="category_id"/>
+                <field name="recurring_flag"/>
                 <field name="expire_in_days"/>
                 <field name="reminder_required_in_days"/>
             </tree>

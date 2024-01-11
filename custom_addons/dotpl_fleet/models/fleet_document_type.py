@@ -15,3 +15,8 @@ class DocumentType(models.Model):
 
     category_id = fields.Many2one('fleet.document.type.category', string='Document Category', required=True)
 
+    @api.onchange('recurring_flag')
+    def _onchange_recurring_flag(self):
+        if not self.recurring_flag:
+            self.expire_in_days = False
+            self.reminder_required_in_days = False
