@@ -16,6 +16,9 @@
                     <page string="Documents" name="documents">
                         <field name="document_ids"/>
                     </page>
+                    <page string="History Documents" name="history_documents">
+                        <field name="history_document_ids"/>
+                    </page>
                 </xpath>
             </data>
         </field>
