@@ -9,10 +9,10 @@ class FleetDocument(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
 
-    def name_get(self):
-        return [(record.id, f"{record.document_type_id.name}: {record.issue_date}") for record in self]
+    # def name_get(self):
+    #     return [(record.id, f"{record.document_type_id.name}: {record.issue_date}") for record in self]
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string='Document No.', required=True)
     active = fields.Boolean(string="Active", default=True, tracking=True)
     issue_date = fields.Date(string='Issue Date', required=True, tracking=True)
     attachment_data = fields.Binary(string='Attachment')
@@ -32,7 +32,11 @@ class FleetDocument(models.Model):
     vehicle_id = fields.Many2one(comodel_name='fleet.vehicle', string='Vehicle', required=True, tracking=True)
     document_type_id = fields.Many2one('fleet.document.type', string='Document Type', required=True, tracking=True)
     recurring_flag = fields.Boolean(string='Is Recurring?', related='document_type_id.recurring_flag', store=False)
+    category_id = fields.Many2one(string='Document Type Category', related='document_type_id.category_id', store=True)
 
+    _sql_constraints = [
+        ('doc_no_uniq', 'unique (name)', "A document number with the same name already exists."),
+    ]
 
     @api.onchange('issue_date', 'vehicle_id')
     def _onchange_issue_date_vehicle(self):
@@ -69,3 +73,9 @@ class FleetDocument(models.Model):
             'view_id': False,
             'target': 'current',
         }
+
+    def copy(self, default=None):
+        default = {} if not default else default
+        default['name'] = f'{self.name} (copy)'
+        return super(FleetDocument, self).copy(default)
+
