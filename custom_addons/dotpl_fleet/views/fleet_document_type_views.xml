@@ -34,12 +34,12 @@
                     </div>
                     <group>
                         <group>
-                            <field name="expire_in_days"/>
-                            <field name="reminder_required_in_days"/>
+                            <field name="category_id"/>
+                            <field name="recurring_flag"/>
                         </group>
                         <group>
-                            <field name="category_id"/>
-                            <field name="recurring_flag" widget="boolean_toggle"/>
+                            <field name="expire_in_days" attrs="{'invisible': [('recurring_flag', '=', False)]}"/>
+                            <field name="reminder_required_in_days" attrs="{'invisible': [('recurring_flag', '=', False)]}"/>
                         </group>
                     </group>
                 </sheet>

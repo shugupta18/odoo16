@@ -8,6 +8,9 @@
         <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
         <field name="arch" type="xml">
             <data>
+                <xpath expr="//group/field[@name='future_driver_id']" position="before">
+                    <field name="ownership"/>
+                </xpath>
                 <xpath expr="//group/group/field[@name='location']" position="before">
                     <field name="branch_id"/>
                     <field name="hub_id" options="{'no_create_edit': [('branch_id', '=', False)]}"/>
