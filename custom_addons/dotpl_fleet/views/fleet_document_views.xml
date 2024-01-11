@@ -9,6 +9,7 @@
             <tree>
                 <field name="id"/>
                 <field name="document_type_id"/>
+                <field name="recurring_flag"/>
                 <field name="vehicle_id"/>
                 <field name="issue_date"/>
                 <field name="expiry_date"/>
@@ -35,8 +36,7 @@
                                                                                 '|', ('id', '=', False),
                                                                                 '|', ('recurring_flag', '=', False),
                                                                                 ('state', 'in', ('renewed', 'hold'))
-                                                                                ]}"
-                    />
+                                                                ]}"/>
                     <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"
                            attrs="{'invisible': ['|', ('id', '=', False), ('recurring_flag', '=', False)]}"/>
                 </header>
@@ -53,7 +53,8 @@
                     <group>
                         <group>
                             <field name="issue_date"/>
-                            <field name="expiry_date" attrs="{'readonly': [('issue_date', '=', False), ('vehicle_id', '=', False)]}"/>
+                            <field name="expiry_date"
+                                   attrs="{'readonly': [('issue_date', '=', False), ('vehicle_id', '=', False)]}"/>
                             <field name="attachment_name" invisible="1"/>
                             <field name="attachment_data" filename="attachment_name" widget="download"/>
                             <field name="remarks"/>
@@ -61,7 +62,8 @@
                         <group>
                             <field name="vehicle_id"/>
                             <field name="recurring_flag" readonly="1"/>
-                            <field name="new_flag" attrs="{'readonly': ['|', ('document_type_id', '=', False), ('recurring_flag', '=', False)]}"/>
+                            <field name="new_flag"
+                                   attrs="{'readonly': ['|', ('document_type_id', '=', False), ('recurring_flag', '=', False)]}"/>
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                         </group>
                     </group>
@@ -93,7 +95,8 @@
                 <!-- Group By -->
                 <group expand="0" string="Group By">
                     <filter string="Vehicle" name="groupby_vehicle" context="{'group_by': 'vehicle_id'}"/>
-                    <filter string="Document Type" name="groupby_document_type" context="{'group_by': 'document_type_id'}"/>
+                    <filter string="Document Type" name="groupby_document_type"
+                            context="{'group_by': 'document_type_id'}"/>
                 </group>
             </search>
         </field>
@@ -106,7 +109,8 @@
         <field name="res_model">fleet.document</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{
-            'search_default_active': True,}</field>
+            'search_default_active': True,}
+        </field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new Document!

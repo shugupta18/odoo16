@@ -60,7 +60,6 @@ class FleetDocument(models.Model):
         return new_document
 
     def action_renew_document(self):
-        print('.......Renew button clicked!')
         new_document = self.create_renewed_document()
         return {
             'type': 'ir.actions.act_window',

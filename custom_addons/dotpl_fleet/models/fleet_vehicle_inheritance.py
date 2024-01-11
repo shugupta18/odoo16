@@ -6,7 +6,7 @@ class FleetVehicleInheritance(models.Model):
 
     branch_id = fields.Many2one('fleet.branch', string='Branch')
     hub_id = fields.Many2one('fleet.hub', string='Hub', domain="[('branch_id', '=', branch_id)]")
-    document_ids = fields.One2many('fleet.document', 'vehicle_id', string='Documents')
+    document_ids = fields.One2many('fleet.document', 'vehicle_id', string='Documents', domain=[('state', '=', 'active')])
 
 
 
