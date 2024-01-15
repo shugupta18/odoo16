@@ -1,19 +1,23 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class FleetDocument(models.Model):
     _name = "fleet.document"
     _description = 'Fleet Document'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _order = 'id desc'
+    _order = 'sequence, id desc'
 
     # def name_get(self):
     #     return [(record.id, f"{record.document_type_id.name}: {record.issue_date}") for record in self]
 
     name = fields.Char(string='Document No.', required=True)
     active = fields.Boolean(string="Active", default=True, tracking=True)
+    sequence = fields.Integer(string="Sequence", default=10)
+
     issue_date = fields.Date(string='Issue Date', required=True, tracking=True)
     attachment_data = fields.Binary(string='Attachment')
     attachment_name = fields.Char(string='Attachment Name')
@@ -30,6 +34,10 @@ class FleetDocument(models.Model):
     expiry_date = fields.Date(string='Expiry Date', store=True, tracking=True)
 
     vehicle_id = fields.Many2one(comodel_name='fleet.vehicle', string='Vehicle', required=True, tracking=True)
+    license_plate = fields.Char(related='vehicle_id.license_plate')
+    model_id = fields.Many2one(related='vehicle_id.model_id')
+    branch_id = fields.Many2one(related='vehicle_id.branch_id')
+    hub_id = fields.Many2one(related='vehicle_id.hub_id')
     document_type_id = fields.Many2one('fleet.document.type', string='Document Type', required=True, tracking=True)
     recurring_flag = fields.Boolean(string='Is Recurring?', related='document_type_id.recurring_flag', store=False)
     category_id = fields.Many2one(string='Document Type Category', related='document_type_id.category_id', store=True)
@@ -37,6 +45,24 @@ class FleetDocument(models.Model):
     _sql_constraints = [
         ('doc_no_uniq', 'unique (name)', "A document number with the same name already exists."),
     ]
+
+    is_near_expiry = fields.Boolean(compute='_compute_is_near_expiry', search='_search_is_near_expiry')
+
+    @api.depends('document_type_id', 'document_type_id.reminder_required_in_days')
+    def _compute_is_near_expiry(self):
+        print('in compute.....')
+        for document in self:
+            document.is_near_expiry = False
+
+    def _search_is_near_expiry(self, operator, value):
+        print('.....value: ', value)
+        # print('......reminder days: ', self.document_type_id.reminder_required_in_days)
+        # if value:
+        #     expiry_date = self.expiry_date
+        #     current_date = fields.Date.today()
+        #     start_reminder_date = self.expiry_date + relativedelta(days=-10)
+        #     return [('expiry_date', '>=', start_reminder_date), ('expiry_date', '<=', current_date)]
+        return []
 
     @api.onchange('issue_date', 'vehicle_id')
     def _onchange_issue_date_vehicle(self):
