@@ -55,14 +55,16 @@ class FleetDocument(models.Model):
             document.is_near_expiry = False
 
     def _search_is_near_expiry(self, operator, value):
-        print('.....value: ', value)
-        # print('......reminder days: ', self.document_type_id.reminder_required_in_days)
-        # if value:
-        #     expiry_date = self.expiry_date
-        #     current_date = fields.Date.today()
-        #     start_reminder_date = self.expiry_date + relativedelta(days=-10)
-        #     return [('expiry_date', '>=', start_reminder_date), ('expiry_date', '<=', current_date)]
-        return []
+        query = '''
+            SELECT fd.id, fd.document_type_id, fd.state, fd.expiry_date, fdt.id, fdt.reminder_required_in_days
+            FROM fleet_document fd
+            LEFT JOIN fleet_document_type fdt ON fd.document_type_id = fdt.id
+            WHERE fd.state = 'active' AND
+                ((CURRENT_DATE BETWEEN fd.expiry_date - INTERVAL '1 day' * fdt.reminder_required_in_days AND fd.expiry_date) OR fd.expiry_date < CURRENT_DATE)
+        '''
+        self.env.cr.execute(query)
+        res = self.env.cr.fetchall()
+        return [('id', 'in', tuple(r[0] for r in res))]
 
     @api.onchange('issue_date', 'vehicle_id')
     def _onchange_issue_date_vehicle(self):
