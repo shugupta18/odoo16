@@ -8,18 +8,18 @@
         <field name="arch" type="xml">
             <tree sample="1" multi_edit="1">
                 <field name="ticket_number" decoration-bf="1"/>
-                <field name="priority" optional="show" widget="priority"/>
+                <field name="priority" optional="show" widget="priority" readonly="1"/>
                 <field name="name"/>
                 <field name="activity_ids" widget="list_activity"/>
                 <field name="team_id" optional="hide"/>
                 <field name="possible_team_member_ids" invisible="1"/>
                 <field name="member_id" widget="many2one_avatar"/>
-                <field name="customer_name" optional="hide"/>
+                <field name="customer_id" optional="hide"/>
                 <!-- Add SLA related fields here -->
                 <field name="created_datetime" optional="hide"/>
                 <field name="__last_update" string="Last Updated"/>
                 <field name="category_id" optional="hide"/>
-                <field name="stage_id" widget="badge"/>
+                <field name="state" widget="badge"/>
                 <field name="tag_ids" widget="many2many_tags" optional="hide"/>
             </tree>
         </field>
@@ -32,7 +32,16 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold', 'order': 'sequence, id'}"/>
+                    <!-- Header Action Buttons -->
+                    <button type="object" name="action_open" string="Open" class="oe_highlight" states="new"/>
+                    <button type="object" name="action_in_progress" string="In Progress" class="oe_highlight" states="open"/>
+                    <button type="object" name="action_reopen" string="Reopen" class="" states="close,cancel"
+                            confirm="Do you want to Reopen the ticket?"/>
+                    <button type="object" name="open_close_ticket_wizard" string="Close Ticket" class="oe_highlight" states="in_progress"/>
+                    <button type="object" name="open_cancel_ticket_wizard" string="Cancel" class="" states="new,open,in_progress"/>
+
+                    <!-- Status Bar -->
+                    <field name="state" widget="statusbar" nolabel="1" statusbar_visible="new,open,in_progress,close"/>
                 </header>
                 <sheet>
                     <separator string="Ticket Information"/>
@@ -47,13 +56,12 @@
                             <field name="active" invisible="1"/>
                             <field name="category_id"/>
                             <field name="source_id"/>
-                            <field name="ticket_number"
-                                   attrs="{'invisible': ['|', ('ticket_number', '=', False), ('ticket_number', '=', None)]}"/>
+                            <field name="created_datetime"/>
                         </group>
                         <group>
                             <field name="issue_regarding"/>
                             <field name="priority" widget="priority"/>
-                            <field name="created_datetime"/>
+                            <field name="ticket_number" attrs="{'invisible': ['|', ('ticket_number', '=', False), ('ticket_number', '=', None)]}"/>
                         </group>
                     </group>
 
@@ -68,19 +76,22 @@
                         <group>
                             <field name="team_id"/>
                             <field name="sla_deadline"/>
-                            <field name="tag_ids" widget="many2many_tags"
-                                   options="{'color_field': 'color', 'no_create_edit': True}"/>
+                            <field name="opening_datetime"/>
+                            <field name="closing_remarks_category" attrs="{'invisible': [('closing_datetime', '=', False)]}"/>
+                            <field name="reopening_datetime" attrs="{'invisible': ['|', ('closing_datetime', '=', False), '&amp;', ('closing_datetime', '!=', False), ('state', '=', 'close')]}"/>
                         </group>
                         <group>
                             <field name="possible_team_member_ids" invisible="1"/>
                             <field name="member_id" options="{'no_create_edit': True}"/>
-                            <field name="closing_datetime"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                            <field name="closing_datetime" attrs="{'invisible': [('closing_datetime', '=', False)]}"/>
+                            <field name="closing_remarks" attrs="{'invisible': [('closing_datetime', '=', False)]}"/>
                         </group>
                     </group>
 
                     <group string="Other Information">
                         <group>
-                            <field name="customer_name"/>
+                            <field name="customer_id"/>
                             <field name="email"/>
                             <field name="uploaded_document" widget="binary" filename="name"/>
                         </group>
@@ -110,20 +121,20 @@
             <search>
                 <field name="ticket_number" string="Ticket No or Name"
                        filter_domain="['|', ('ticket_number','ilike',self), ('name','ilike',self)]"/>
-                <field name="stage_id"/>
+                <field name="state"/>
                 <field name="category_id"/>
                 <field name="member_id"/>
 
                 <!-- Filters -->
                 <filter name="filter_ticket_my" string="My Tickets" domain="[('member_id','=',uid)]"/>
                 <separator/>
-                <filter name="filter_ticket_open" string="Open" domain="[('stage_id', 'in', ('New', 'In Progress'))]"/>
+                <filter name="filter_ticket_open" string="Open" domain="[('state', 'in', ('new', 'in_progress'))]"/>
                 <separator/>
                 <filter name="filter_archived" string="Archived" domain="[('active', '=', False)]"/>
 
                 <!-- Group By -->
                 <group expand="0" string="Group By">
-                    <filter string="Stage" name="group_by_stage" context="{'group_by':'stage_id'}"/>
+                    <filter string="Stage" name="group_by_stage" context="{'group_by':'state'}"/>
                 </group>
                 <group expand="0" string="Group By">
                     <filter string="Category" name="group_by_category" context="{'group_by':'category_id'}"/>
@@ -137,12 +148,12 @@
         <field name="name">helpdesk.ticket.kanban</field>
         <field name="model">helpdesk.ticket</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="stage_id" class="o_kanban_mobile">
+            <kanban default_group_by="state" class="o_kanban_mobile">
                 <field name="name"/>
                 <field name="team_id"/>
                 <field name="priority"/>
                 <field name="member_id"/>
-                <field name="customer_name"/>
+                <field name="customer_id"/>
                 <templates>
                     <!-- Define the Kanban card template -->
                     <t t-name="kanban-box">

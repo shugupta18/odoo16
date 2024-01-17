@@ -47,12 +47,16 @@
                                                 <div class="o_kanban_card_content d-flex">
                                                     <div>
                                                         <img t-att-src="kanban_image('res.users', 'avatar_128', record.id.raw_value)"
-                                                            class="o_kanban_image o_image_64_cover" alt="Avatar"/>
+                                                             class="o_kanban_image o_image_64_cover" alt="Avatar"/>
                                                     </div>
                                                     <div class="oe_kanban_details d-flex flex-column ms-3">
-                                                        <strong class="o_kanban_record_title oe_partner_heading"><field name="name"/></strong>
+                                                        <strong class="o_kanban_record_title oe_partner_heading">
+                                                            <field name="name"/>
+                                                        </strong>
                                                         <div class="d-flex align-items-baseline text-break">
-                                                            <i class="fa fa-envelope me-1" role="img" aria-label="Email" title="Email"/><field name="email"/>
+                                                            <i class="fa fa-envelope me-1" role="img" aria-label="Email"
+                                                               title="Email"/>
+                                                            <field name="email"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -68,25 +72,147 @@
         </field>
     </record>
 
-    <!-- Search View -->
-    <!--    <record id="view_helpdesk_ticket_search" model="ir.ui.view">-->
-    <!--        <field name="name">helpdesk.ticket.search</field>-->
-    <!--        <field name="model">helpdesk.ticket</field>-->
-    <!--        <field name="arch" type="xml">-->
-    <!--            <search>-->
-    <!--                <field name="id"/>-->
-    <!--                <field name="name"/>-->
-    <!--            </search>-->
-    <!--        </field>-->
-    <!--    </record>-->
+    <!-- Kanban View -->
+    <record id="view_helpdesk_team_kanban_dashboard" model="ir.ui.view">
+        <field name="name">helpdesk.team.tree</field>
+        <field name="model">helpdesk.team</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_crm_team_kanban">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="member_ids"/>
+                <field name="color"/>
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div t-attf-class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary o_text_overflow">
+                                        <field name="name"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">
+                                        <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content">
+                                <div class="row o_kanban_card_upper_content">
+                                    <div class="col-4 o_kanban_primary_left">
+                                        <button type="object" class="btn btn-primary" name="action_primary_channel_button">
+                                            Tickets
+                                        </button>
+                                    </div>
+                                    <div class="col-8 o_kanban_primary_right">
+                                        <div class="mb4">
+                                            <a name="action_view_closed_ticket" type="object"
+                                               title="Number of tickets closed in the past 7 days.">
+                                                <span>Tickets Closed</span>
+                                                <span class="ms-3"><field name="ticket_closed"/></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row pt-5">
+                                    <div class="col">
+                                        <a name="action_test" type="object"
+                                           class="d-flex flex-column align-items-center">
+                                            <span class="fw-bold">
+                                                <field name="open_ticket_count"/>
+                                            </span>
+                                            <span class="text-muted">Open</span>
+                                        </a>
+                                    </div>
+                                    <div class="col border-start">
+                                        <a name="action_test" type="action"
+                                           class="d-flex flex-column align-items-center">
+                                            <span class="fw-bold">
+                                                <field name="unassigned_tickets"/>
+                                            </span>
+                                            <span class="text-muted">Unassigned</span>
+                                        </a>
+                                    </div>
+                                    <div class="col border-start">
+                                        <a name="action_test" type="object"
+                                           class="d-flex flex-column align-items-center">
+                                            <span class="fw-bold">
+                                                <field name="urgent_ticket"/>
+                                            </span>
+                                            <span class="text-muted">Urgent</span>
+                                        </a>
+                                    </div>
+                                    <div class="col border-start">
+                                        <a name="action_test" type="object"
+                                           class="d-flex flex-column align-items-center"
+                                           title="Number of open tickets with at least one SLA failed.">
+                                            <span class="fw-bold">
+                                                <field name="sla_failed"/>
+                                            </span>
+                                            <span class="text-muted">SLA Failed</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                <div class="row">
+                                    <div class="col-4 o_kanban_card_manage_section o_kanban_manage_view">
+                                        <div role="menuitem" class="o_kanban_card_manage_title">
+                                            <span>View</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 o_kanban_card_manage_section o_kanban_manage_new">
+                                        <div role="menuitem" class="o_kanban_card_manage_title">
+                                            <span>New</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 o_kanban_card_manage_section o_kanban_manage_reports">
+                                        <div role="menuitem" class="o_kanban_card_manage_title">
+                                            <span>Reporting</span>
+                                        </div>
+                                        <div name="o_team_kanban_report_separator"></div>
+                                    </div>
+                                </div>
+
+                                <!--                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row"
+                                groups="sales_team.group_sale_manager">-->
+                                <!--                                    <div role="menuitem" aria-haspopup="true" class="col-8">-->
+                                <!--                                        <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>-->
+                                <!--                                    </div>-->
+                                <!--                                    <div role="menuitem" class="col-4">-->
+                                <!--                                        <a class="dropdown-item" type="edit">Configuration</a>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
 
     <!-- Action -->
-    <record id="action_helpdesk_team" model="ir.actions.act_window">
+    <record id="action_helpdesk_team_config" model="ir.actions.act_window">
         <field name="name">Helpdesk Teams</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">helpdesk.team</field>
         <field name="view_mode">tree,form</field>
         <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new helpdesk team!
+            </p>
+        </field>
+    </record>
+
+    <record id="action_helpdesk_team_pipeline" model="ir.actions.act_window">
+        <field name="name">Helpdesk Teams</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">helpdesk.team</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="context">{}</field>
+        <field name="view_id" ref="view_helpdesk_team_kanban_dashboard"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new helpdesk team!
